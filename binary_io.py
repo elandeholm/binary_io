@@ -280,8 +280,9 @@ if __name__ == '__main__':
 	the_string = 'a quick brown fox jümps over the läzy d0g'
 	the_byte_vector = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -19 ]
 	the_string_vector = [ 'egg', 'spam', 'bacon', 'ham', 'räksmörgås' ]
+	the_long_set = set( ( 9223372036854775807, 4611686018427387903, 2305843009213693951 ) )
 	the_str_long_map = { 'xyzzy': 42, 'bar':4711, 'swag':31412359 }
-	the_long_number_map = { 4294967296: 1, -1:2, 31423412359:65535 }
+	the_int_number_map = { 42967295: 1, -1:2, 314212359:65535 }
 	the_bytes_sequence = bytes(str(globals())[179], 'ascii')
 
 	the_things = [
@@ -289,8 +290,9 @@ if __name__ == '__main__':
 		[ the_number, 'i' ],
 		[ the_byte_vector, 'vec:b' ],
 		[ the_string_vector, 'vec:sstr/latin-1' ],
+		[ the_long_set, 'set:L' ],
 		[ the_str_long_map, 'map:str/ascii:L' ],
-		[ the_long_number_map, 'map:l:I' ],
+		[ the_int_number_map, 'map:i:I' ],
 		[ the_bytes_sequence, 'sbyt' ] ]
 
 	io_object=io.BytesIO()
@@ -303,6 +305,8 @@ if __name__ == '__main__':
 		bytes_written = bytes(io_object.getbuffer())
 
 	assert n == len(bytes_written)
+
+	print(bytes_written)
 
 	io_object=io.BytesIO(bytes_written)
 
