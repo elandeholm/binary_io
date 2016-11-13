@@ -282,8 +282,8 @@ if __name__ == '__main__':
 	the_string_vector = [ 'egg', 'spam', 'bacon', 'ham', 'räksmörgås' ]
 	the_long_set = set( ( 9223372036854775807, 4611686018427387903, 2305843009213693951 ) )
 	the_str_long_map = { 'xyzzy': 42, 'bar':4711, 'swag':31412359 }
-	the_int_number_map = { 42967295: 1, -1:2, 314212359:65535 }
-	the_bytes_sequence = bytes(str(globals())[179], 'ascii')
+	the_int_number_map = { 42967295:1, -1:2, 314212359:65535 }
+	the_bytes_sequence = bytes([ord(b) | 128 for b in str(globals())[:200]])
 
 	the_things = [
 		[ the_string, 'sstr/utf-8' ],
