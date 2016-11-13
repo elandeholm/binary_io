@@ -43,20 +43,25 @@ class ContextMixin(ContextDecorator):
 
 # static initialization of class variables
 
-def static_initialization(klass):
-	klass.NUMERIC_FMT = set(( 'b', 'B', 'i', 'I', 'l', 'L' ))
-	klass.STRING_TYPES = set(( 'str', 'sstr' ))
-	klass.BYTES_TYPES = set(( 'byt', 'sbyt' ))
-	klass.SCALAR_TYPES = klass.NUMERIC_FMT | klass.STRING_TYPES | klass.BYTES_TYPES
-	klass.DEFAULT_ENC = 'utf-8'
-	klass.NUMBER_SIZES = { }
-	klass.LONG_TYPE = 'I', None
-	klass.SHORT_TYPE = 'B', None
+def staticinit(cls):
+	cls.__static_init__()
+	return cls
 
-	for fmt in klass.NUMERIC_FMT:
-		klass.NUMBER_SIZES[fmt] = len(struct.pack(fmt, 42))
-
+@staticinit
 class BinaryIO(ContextMixin):
+	@classmethod
+	def __static_init__(cls):
+		cls.NUMERIC_FMT = set(( 'b', 'B', 'i', 'I', 'l', 'L' ))
+		cls.STRING_TYPES = set(( 'str', 'sstr' ))
+		cls.BYTES_TYPES = set(( 'byt', 'sbyt' ))
+		cls.SCALAR_TYPES = cls.NUMERIC_FMT | cls.STRING_TYPES | cls.BYTES_TYPES
+		cls.DEFAULT_ENC = 'utf-8'
+		cls.NUMBER_SIZES = { }
+		cls.LONG_TYPE = 'I', None
+		cls.SHORT_TYPE = 'B', None
+		for fmt in cls.NUMERIC_FMT:
+			cls.NUMBER_SIZES[fmt] = len(struct.pack(fmt, 42))
+
 	def __init__(self, name=None, mode=None, file_object=None, io_object=None):
 		self.name = name
 		self.mode = mode
@@ -245,8 +250,6 @@ class BinaryIO(ContextMixin):
 			return self.write_map(item, type_components[1], type_components[2])
 		else:
 			raise ValueError('type {} unsupported'.format(typ))
-
-static_initialization(BinaryIO)
 
 if __name__ == '__main__':
 	def assert_deep_equal(lhs, rhs):
