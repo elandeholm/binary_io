@@ -3,9 +3,9 @@
 	
 	API:
 	
-		with Binary_IO(name=file_name, mode=file_mode) as bio:
-		with Binary_IO(file_object=fo) as bio:
-		with Binary_IO(io_object=iob) as bio:
+		with BinaryIO(name=file_name, mode=file_mode) as bio:
+		with BinaryIO(file_object=fo) as bio:
+		with BinaryIO(io_object=iob) as bio:
 			bio.write(something, type_descr)
 			something = bio.read(type_descr)
 			
