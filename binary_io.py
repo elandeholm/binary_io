@@ -266,10 +266,7 @@ if __name__ == '__main__':
 
 		if isinstance(lhs, str) or isinstance(lhs, bytes):
 			assert lhs == rhs
-		elif isinstance(lhs, list) or isinstance(lhs, tuple):
-			for item1, item2 in zip(lhs, rhs):
-				assert_deep_equal(item1, item2)
-		elif isinstance(lhs, set):
+		elif isinstance(lhs, list) or isinstance(lhs, tuple) or isinstance(lhs, set):
 			for item1, item2 in zip(lhs, rhs):
 				assert_deep_equal(item1, item2)
 		elif isinstance(lhs, dict):
@@ -305,18 +302,15 @@ if __name__ == '__main__':
 	with BinaryIO(io_object=io_object) as bio:
 		for item, type_descr in the_things:
 			n += bio.write(item, type_descr)
-		bytes_written = bytes(io_object.getbuffer())
+		written_bytes = bytes(io_object.getbuffer())
 
-	assert n == len(bytes_written)
+	assert n == len(written_bytes)
 
-	print(bytes_written)
-
-	io_object=io.BytesIO(bytes_written)
+	io_object=io.BytesIO(written_bytes)
 
 	with BinaryIO(io_object=io_object) as bio:
 		for item, type_descr in the_things:
 			roundtrip = bio.read(type_descr)
 			assert_deep_equal(item, roundtrip)
 
-	io_object=io.BytesIO()
-
+	print(written_bytes)
